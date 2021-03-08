@@ -151,6 +151,7 @@ module.exports = {
   },
 
   ensureRunpathSearchPath: function (context, xcodeProjectPath) {
+    console.log('here2', context, xcodeProjectPath);
     let xcode;
     if (cmpVersions(context.opts.cordova.version, '8.0.0') < 0) {
       xcode = context.requireCordovaModule("xcode");
