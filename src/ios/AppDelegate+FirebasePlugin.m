@@ -9,17 +9,22 @@
 @import FirebaseAuth;
 #import <objc/runtime.h>
 
-@import UserNotifications;
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+  @import UserNotifications;
 
-// Implement UNUserNotificationCenterDelegate to receive display notification via APNS for devices running iOS 10 and above.
-// Implement FIRMessagingDelegate to receive data message via FCM for devices running iOS 10 and above.
-@interface AppDelegate () <UNUserNotificationCenterDelegate, FIRMessagingDelegate>
-@end
+  // Implement UNUserNotificationCenterDelegate to receive display notification via APNS for devices
+  // running iOS 10 and above. Implement FIRMessagingDelegate to receive data message via FCM for
+  // devices running iOS 10 and above.
+  @interface AppDelegate () <UNUserNotificationCenterDelegate, FIRMessagingDelegate>
+  @end
+#endif
 
 #define kApplicationInBackgroundKey @"applicationInBackground"
 #define kDelegateKey @"delegate"
 
 @implementation AppDelegate (FirebasePlugin)
+
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 
 - (void)setDelegate:(id)delegate {
     objc_setAssociatedObject(self, kDelegateKey, delegate, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -28,6 +33,8 @@
 - (id)delegate {
     return objc_getAssociatedObject(self, kDelegateKey);
 }
+
+#endif
 
 + (void)load {
     Method original = class_getInstanceMethod(self, @selector(application:didFinishLaunchingWithOptions:));
@@ -47,11 +54,15 @@
     NSLog(@"FirebasePlugin - Finished launching");
     [self application:application swizzledDidFinishLaunchingWithOptions:launchOptions];
 
+    // [START set_messaging_delegate]
     [FIRMessaging messaging].delegate = self;
-
+    // [END set_messaging_delegate]  
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+    // self.delegate = [UNUserNotificationCenter currentNotificationCenter].delegate;
     NSLog(@"FirebasePlugin - Finished launching - Configure iOS >= 10");
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
     [FIRMessaging messaging].remoteMessageDelegate = self;
+#endif
 
     [[UIApplication sharedApplication] registerForRemoteNotifications];
 
@@ -151,6 +162,7 @@
   NSLog(@"FirebasePlugin - Unable to register for remote notifications: %@", error);
 }
 
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
        willPresentNotification:(UNNotification *)notification
          withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
@@ -210,5 +222,6 @@
     NSLog(@"FirebasePlugin - applicationReceivedRemoteMessage");
     NSLog(@"%@", [remoteMessage appData]);
 }
+#endif
 
 @end
