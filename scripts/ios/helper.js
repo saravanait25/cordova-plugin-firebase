@@ -16,9 +16,7 @@ module.exports = {
      * @returns The path to the XCode project's .pbxproj file.
      */
   getXcodeProjectPath: function (context) {
-
     var appName = utilities.getAppName(context);
-
     return path.join("platforms", "ios", appName + ".xcodeproj", "project.pbxproj");
   },
 
@@ -29,8 +27,6 @@ module.exports = {
      * (dSYMs) so that Crashlytics can display stack trace information in it's web console.
      */
   addShellScriptBuildPhase: function (context, xcodeProjectPath) {
-    console.log('here1');
-
     let xcode;
     if (cmpVersions(context.opts.cordova.version, '8.0.0') < 0) {
       xcode = context.requireCordovaModule("xcode");
@@ -92,8 +88,6 @@ module.exports = {
      * by the addShellScriptBuildPhase() helper method.
      */
   removeShellScriptBuildPhase: function (context, xcodeProjectPath) {
-    console.log('here2');
-
     let xcode;
     if (cmpVersions(context.opts.cordova.version, '8.0.0') < 0) {
       xcode = context.requireCordovaModule("xcode");
