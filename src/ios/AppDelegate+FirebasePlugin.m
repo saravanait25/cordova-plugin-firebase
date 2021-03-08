@@ -3,7 +3,7 @@
 #import "Firebase.h"
 @import Firebase;
 @import FirebaseMessaging;
-@import FirebaseInstanceID;
+//@import FirebaseInstanceID;
 @import FirebaseAnalytics;
 @import FirebaseRemoteConfig;
 @import FirebaseAuth;

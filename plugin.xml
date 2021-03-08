@@ -116,7 +116,7 @@
     <!--<framework src="FirebaseAnalytics" type="podspec" spec="~> 6.8.3" />-->
     <framework src="FirebaseMessaging" type="podspec" spec="~> 4.7.0" />
     <framework src="FirebaseAuth" type="podspec" spec="~> 6.9.2" />
-    <framework src="FirebaseRemoteConfig" type="podspec" spec="~> 4.9.1" />
-    <framework src="FirebasePerformance" type="podspec" spec="~> 3.3.2" />
+    <framework src="FirebaseRemoteConfig" type="podspec" spec="~> 4.9.0" />
+    <framework src="FirebasePerformance" type="podspec" spec="~> 3.3.0" />
   </platform>
 </plugin>
