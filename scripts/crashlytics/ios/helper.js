@@ -29,6 +29,8 @@ module.exports = {
      * (dSYMs) so that Crashlytics can display stack trace information in it's web console.
      */
   addShellScriptBuildPhase: function (context, xcodeProjectPath) {
+    console.log('here1');
+
     let xcode;
     if (cmpVersions(context.opts.cordova.version, '8.0.0') < 0) {
       xcode = context.requireCordovaModule("xcode");
@@ -43,7 +45,8 @@ module.exports = {
 
     // Build the body of the script to be executed during the build phase.
     // var script = '"' + '\\"${SRCROOT}\\"' + "/\\\"" + utilities.getAppName(context) + "\\\"/Plugins/" + utilities.getPluginId() + "/Fabric.framework/run" + '"';
-    var script = '"\\"${PODS_ROOT}/Fabric/run\\""';
+    //var script = '"\\"${PODS_ROOT}/Fabric/run\\""';
+    var script = '"' + '\\"${PODS_ROOT}/FirebaseCrashlytics/run\\"' + '"';
 
     // Generate a unique ID for our new build phase.
     var id = xcodeProject.generateUuid();
@@ -52,7 +55,7 @@ module.exports = {
           isa: "PBXShellScriptBuildPhase",
           buildActionMask: 2147483647,
           files: [],
-          inputPaths: [],
+          inputPaths: ['"' + '$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)' + '"'],
           name: comment,
           outputPaths: [],
           runOnlyForDeploymentPostprocessing: 0,
@@ -89,6 +92,8 @@ module.exports = {
      * by the addShellScriptBuildPhase() helper method.
      */
   removeShellScriptBuildPhase: function (context, xcodeProjectPath) {
+    console.log('here2');
+
     let xcode;
     if (cmpVersions(context.opts.cordova.version, '8.0.0') < 0) {
       xcode = context.requireCordovaModule("xcode");
