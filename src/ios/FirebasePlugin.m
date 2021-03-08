@@ -6,7 +6,7 @@
 //@import FirebaseInstanceID;
 //@import FirebaseMessaging;
 @import FirebaseAnalytics;
-@import FirebaseRemoteConfig;
+//@import FirebaseRemoteConfig;
 @import FirebasePerformance;
 @import FirebaseAuth;
 

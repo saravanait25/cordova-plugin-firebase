@@ -5,7 +5,7 @@
 //@import FirebaseMessaging;
 //@import FirebaseInstanceID;
 @import FirebaseAnalytics;
-@import FirebaseRemoteConfig;
+//@import FirebaseRemoteConfig;
 @import FirebaseAuth;
 #import <objc/runtime.h>
 
