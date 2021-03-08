@@ -1,4 +1,5 @@
 #import "FirebasePlugin.h"
+#import "AppDelegate+FirebasePlugin.h"
 #import <Cordova/CDV.h>
 #import "AppDelegate.h"
 @import FirebaseInstanceID;
