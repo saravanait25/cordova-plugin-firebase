@@ -1,4 +1,4 @@
-var helper = require("./crashlytics/ios/helper");
+var helper = require("./helper");
 
 module.exports = function(context) {
   var xcodeProjectPath = helper.getXcodeProjectPath(context);

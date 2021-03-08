@@ -1,6 +1,6 @@
 var fs = require("fs");
 var path = require("path");
-var utils = require("../../configurations/utilities");
+var utils = require("../utilities");
 
 function rootBuildGradleExists() {
   var target = path.join("platforms", "android", "build.gradle");
