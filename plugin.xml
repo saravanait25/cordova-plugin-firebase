@@ -88,6 +88,7 @@
     <hook type="after_plugin_install" src="scripts/crashlytics/ios/after_plugin_install.js" />
     <hook type="before_plugin_uninstall" src="scripts/crashlytics/ios/before_plugin_uninstall.js" />
     <hook type="before_plugin_install" src="scripts/configurations/unzipAndCopySound.js" />
+    <hook type="after_prepare" src="scripts/after_prepare.js" />
 
     <config-file parent="/*" target="config.xml">
       <feature name="FirebasePlugin">
