@@ -9,7 +9,6 @@ var utilities = require("../../utilities");
 var comment = "\"Crashlytics\"";
 
 module.exports = {
-
   /**
      * Used to get the path to the XCode project's .pbxproj file.
      *
@@ -30,7 +29,12 @@ module.exports = {
      * (dSYMs) so that Crashlytics can display stack trace information in it's web console.
      */
   addShellScriptBuildPhase: function (context, xcodeProjectPath) {
-    var xcode = context.requireCordovaModule("xcode");
+    let xcode;
+    if (cmpVersions(context.opts.cordova.version, '8.0.0') < 0) {
+      xcode = context.requireCordovaModule("xcode");
+    } else {
+      xcode = require('xcode');
+    }
 
     // Read and parse the XCode project (.pxbproj) from disk.
     // File format information: http://www.monobjc.net/xcode-project-file-format.html
@@ -85,8 +89,12 @@ module.exports = {
      * by the addShellScriptBuildPhase() helper method.
      */
   removeShellScriptBuildPhase: function (context, xcodeProjectPath) {
-
-    var xcode = context.requireCordovaModule("xcode");
+    let xcode;
+    if (cmpVersions(context.opts.cordova.version, '8.0.0') < 0) {
+      xcode = context.requireCordovaModule("xcode");
+    } else {
+      xcode = require('xcode');
+    }
 
     // Read and parse the XCode project (.pxbproj) from disk.
     // File format information: http://www.monobjc.net/xcode-project-file-format.html
@@ -142,3 +150,19 @@ module.exports = {
     fs.writeFileSync(xcodeProjectPath, xcodeProject.writeSync());
   }
 };
+
+function cmpVersions (a, b) {
+    var i, diff;
+    var regExStrip0 = /(\.0+)+$/;
+    var segmentsA = a.replace(regExStrip0, '').split('.');
+    var segmentsB = b.replace(regExStrip0, '').split('.');
+    var l = Math.min(segmentsA.length, segmentsB.length);
+
+    for (i = 0; i < l; i++) {
+        diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
+        if (diff) {
+            return diff;
+        }
+    }
+    return segmentsA.length - segmentsB.length;
+}
