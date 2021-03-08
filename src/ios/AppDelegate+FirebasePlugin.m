@@ -56,6 +56,8 @@
 
     // [START set_messaging_delegate]
     [FIRMessaging messaging].delegate = self;
+    [FIRMessaging messaging].shouldEstablishDirectChannel = true;
+
     // [END set_messaging_delegate]  
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
     // self.delegate = [UNUserNotificationCenter currentNotificationCenter].delegate;
@@ -79,12 +81,13 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // [self connectToFcm];
     self.applicationInBackground = @(NO);
+    [FIRMessaging messaging].shouldEstablishDirectChannel = true;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // [[FIRMessaging messaging] disconnect];
     self.applicationInBackground = @(YES);
-    NSLog(@"FirebasePlugin - Disconnected from FCM");
+    [FIRMessaging messaging].shouldEstablishDirectChannel = false;
 }
 
 - (void)tokenRefreshNotification:(NSNotification *)notification {
