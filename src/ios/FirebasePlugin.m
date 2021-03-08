@@ -3,12 +3,8 @@
 #import <Cordova/CDV.h>
 #import "AppDelegate.h"
 @import Firebase;
-//@import FirebaseInstanceID;
-//@import FirebaseMessaging;
 @import FirebaseAnalytics;
-//@import FirebaseRemoteConfig;
 @import FirebasePerformance;
-//@import FirebaseAuth;
 
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 @import UserNotifications;
@@ -313,6 +309,10 @@ static FirebasePlugin *firebasePlugin;
     [[FIRCrashlytics crashlytics] setUserID:userId];
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)forceCrashlytics:(CDVInvokedUrlCommand *)command {
+    //[[Crashlytics sharedInstance] crash];
 }
 
 //
