@@ -61,7 +61,7 @@
     // self.delegate = [UNUserNotificationCenter currentNotificationCenter].delegate;
     NSLog(@"FirebasePlugin - Finished launching - Configure iOS >= 10");
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
-    [FIRMessaging messaging].remoteMessageDelegate = self;
+    // [FIRMessaging messaging].remoteMessageDelegate = self;
 #endif
 
     [[UIApplication sharedApplication] registerForRemoteNotifications];
@@ -77,12 +77,12 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    [self connectToFcm];
+    // [self connectToFcm];
     self.applicationInBackground = @(NO);
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    [[FIRMessaging messaging] disconnect];
+    // [[FIRMessaging messaging] disconnect];
     self.applicationInBackground = @(YES);
     NSLog(@"FirebasePlugin - Disconnected from FCM");
 }
@@ -91,25 +91,27 @@
     // Note that this callback will be fired everytime a new token is generated, including the first
     // time. So if you need to retrieve the token as soon as it is available this is where that
     // should be done.
-    NSString *refreshedToken = [[FIRInstanceID instanceID] token];
-    NSLog(@"FirebasePlugin - InstanceID token: %@", refreshedToken);
-
-    // Connect to FCM since connection may have failed when attempted before having a token.
-    [self connectToFcm];
-    [FirebasePlugin.firebasePlugin sendToken:refreshedToken];
+    [[FIRInstanceID instanceID] instanceIDWithHandler:^(FIRInstanceIDResult * _Nullable result, NSError * _Nullable error) {
+        NSString* token = nil;
+        if (error == nil && result != nil && result.token != nil) {
+            token = result.token;
+        }
+        // [self connectToFcm];
+        [FirebasePlugin.firebasePlugin sendToken:token];
+    }];
 }
 
+/*
 - (void)connectToFcm {
     [[FIRMessaging messaging] connectWithCompletion:^(NSError * _Nullable error) {
         if (error != nil) {
             NSLog(@"FirebasePlugin - Unable to connect to FCM. %@", error);
         } else {
             NSLog(@"FirebasePlugin - Connected to FCM.");
-            NSString *refreshedToken = [[FIRInstanceID instanceID] token];
-            NSLog(@"FirebasePlugin - InstanceID token: %@", refreshedToken);
         }
     }];
 }
+*/
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [FIRMessaging messaging].APNSToken = deviceToken;
