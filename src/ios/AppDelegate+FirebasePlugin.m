@@ -50,21 +50,14 @@
     NSLog(@"FirebasePlugin - Finished launching");
     [self application:application swizzledDidFinishLaunchingWithOptions:launchOptions];
 
-    // [START set_messaging_delegate]
-    [FIRMessaging messaging].delegate = self;
-    [FIRMessaging messaging].shouldEstablishDirectChannel = true;
+    [FIRApp configure];
 
-    // [END set_messaging_delegate]  
-#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-    // self.delegate = [UNUserNotificationCenter currentNotificationCenter].delegate;
-    NSLog(@"FirebasePlugin - Finished launching - Configure iOS >= 10");
+    [FIRMessaging messaging].delegate = self;
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
-    // [FIRMessaging messaging].remoteMessageDelegate = self;
-#endif
+
+    //[FIRMessaging messaging].shouldEstablishDirectChannel = true;
 
     [[UIApplication sharedApplication] registerForRemoteNotifications];
-
-    [FIRApp configure];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tokenRefreshNotification:)
                                                  name:kFIRInstanceIDTokenRefreshNotification object:nil];
@@ -77,13 +70,13 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // [self connectToFcm];
     self.applicationInBackground = @(NO);
-    [FIRMessaging messaging].shouldEstablishDirectChannel = true;
+    // [FIRMessaging messaging].shouldEstablishDirectChannel = true;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // [[FIRMessaging messaging] disconnect];
     self.applicationInBackground = @(YES);
-    [FIRMessaging messaging].shouldEstablishDirectChannel = false;
+    // [FIRMessaging messaging].shouldEstablishDirectChannel = false;
 }
 
 - (void)tokenRefreshNotification:(NSNotification *)notification {
