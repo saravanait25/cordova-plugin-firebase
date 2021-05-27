@@ -29,7 +29,7 @@ module.exports = {
   addShellScriptBuildPhase: function (context, xcodeProjectPath) {
     let xcode;
     if (cmpVersions(context.opts.cordova.version, '8.0.0') < 0) {
-      xcode = context.requireCordovaModule("xcode");
+      xcode = require('xcode');
     } else {
       xcode = require('xcode');
     }
@@ -90,7 +90,7 @@ module.exports = {
   removeShellScriptBuildPhase: function (context, xcodeProjectPath) {
     let xcode;
     if (cmpVersions(context.opts.cordova.version, '8.0.0') < 0) {
-      xcode = context.requireCordovaModule("xcode");
+      xcode = require('xcode');
     } else {
       xcode = require('xcode');
     }
@@ -152,7 +152,7 @@ module.exports = {
   ensureRunpathSearchPath: function (context, xcodeProjectPath) {
     let xcode;
     if (cmpVersions(context.opts.cordova.version, '8.0.0') < 0) {
-      xcode = context.requireCordovaModule("xcode");
+      xcode = require('xcode');
     } else {
       xcode = require('xcode');
     }
